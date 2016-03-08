@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import javax.swing.BorderFactory;
@@ -10,7 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 /**
- * Class ConnectUI provides the user interface for the Nim network game.
+ * Class BackUI provides the user interface for the  network game.
  *
  * @author  Michael Rinos
  */
@@ -21,6 +22,8 @@ public class BackUI implements ModelListener {
     private static final int COL = 10;
 
     private int id;
+    private int die1;
+    private int die2;
     private int MahWins;
     private JFrame frame;
     private int TheirWins;
@@ -40,7 +43,7 @@ public class BackUI implements ModelListener {
 // Hidden constructors.
 
     /**
-     * Construct a new Nim UI.
+     * Construct a new Back UI.
      */
     private BackUI(String name) {
         frame = new JFrame ("Backgammon -- " + name);
@@ -57,6 +60,7 @@ public class BackUI implements ModelListener {
         boardPanel.setAlignmentX (0.5f);
         boardPanel.setBorder(BorderFactory.createEmptyBorder(GAP,GAP,GAP,GAP));
         panel.add(boardPanel);
+        panel.add(Box.createRigidArea(new Dimension(5,0)));
 
 
         JPanel fieldPanel = new JPanel();
@@ -90,12 +94,13 @@ public class BackUI implements ModelListener {
 
 
         //Dice button
-        diceButton = new JButton ("Roll");
+        diceButton = new JButton ("      Roll      ");
         diceButton.setAlignmentX (0.5f);
         diceButton.setFocusable(false);
         fieldPanel.add(diceButton);
-        diceButton.setEnabled(false);
+        diceButton.setEnabled(true);
 
+        fieldPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
         // New Game button
         newGameButton = new JButton ("New Game");
@@ -106,6 +111,16 @@ public class BackUI implements ModelListener {
 
         frame.pack();
         frame.setVisible(true);
+
+
+        // Listener for the Roll Button
+        diceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                roll();
+            }
+
+        });
 
         // Listener for the new game button
         newGameButton.addActionListener(new ActionListener() {
@@ -179,14 +194,14 @@ public class BackUI implements ModelListener {
 // Exported operations.
 
     /**
-     * An object holding a reference to a Nim UI.
+     * An object holding a reference to a Back UI.
      */
     private static class UIRef {
         public BackUI ui;
     }
 
     /**
-     * Construct a new Nim UI.
+     * Construct a new Back UI.
      */
     public static BackUI create(String name) {
         final UIRef ref = new UIRef();onSwingThreadDo (new Runnable() {
@@ -199,6 +214,15 @@ public class BackUI implements ModelListener {
     }
     public synchronized void setViewListener(ViewListener viewListener) {
         this.viewListener = viewListener;
+    }
+
+
+    public void roll(){
+
+        die1 = (int) (Math.random() * 6) + 1;
+        die2 = (int) (Math.random() * 6) + 1;
+        whoWonField.setText("( " + die1 + ", " + die2 + " )");
+        diceButton.setEnabled(false);
     }
 
     public void newGame(){
@@ -249,6 +273,7 @@ public class BackUI implements ModelListener {
                 }
                 else {
                     newGameButton.setEnabled(true);
+                    diceButton.setEnabled(true);
                     TheirName = name + "= ";
                     theirNameField.setText(name);
                 }

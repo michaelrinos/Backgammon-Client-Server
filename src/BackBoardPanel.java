@@ -35,6 +35,7 @@ public class BackBoardPanel extends JPanel {
         this.board = board;
         this.isEnabled = true;
 
+        this.setBackground(new Color(210, 180, 140));
         dim = new Dimension(W * BackBoard.BOARD_ROWS/2, D * BackBoard.BOARD_ROWS/2);
         setMinimumSize(dim);
         setPreferredSize(dim);
@@ -57,7 +58,7 @@ public class BackBoardPanel extends JPanel {
     }
 
     /**
-     * Determine the row on the Go board that was clicked.
+     * Determine the row on the BackBoard that was clicked.
      *
      * @param e Mouse event.
      * @return Row index.
@@ -68,7 +69,7 @@ public class BackBoardPanel extends JPanel {
     }
 
     /**
-     * Determine the column on the Go board that was clicked.
+     * Determine the column on the BackBoard that was clicked.
      *
      * @param e Mouse event.
      * @return Column index.
@@ -86,7 +87,7 @@ public class BackBoardPanel extends JPanel {
 // Hidden operations.
 
     /**
-     * Paint this Go board panel in the given graphics context.
+     * Paint this Back board panel in the given graphics context.
      *
      * @param g Graphics context.
      */
@@ -111,49 +112,35 @@ public class BackBoardPanel extends JPanel {
             synchronized (board) {
                 for (int r = 0; r < BackBoard.BOARD_ROWS; ++r) {
                     MyStack<Piece> location = board.getSpot(r);
-                    if (r >= 12){
-                        int counter = 0;
-                        while (!location.isEmpty()) {
-                            Piece temp = location.pop();
-                            Color color = temp.getColor();
-                            if (color != null) {
-                                ellipse.x = (r % 12) * W + OFFSET;
-                                if (counter >= 6){
-
-                                    ellipse.y = (dim.getHeight() - D) - counter%6 * ellipse.height -ellipse.height/2;
-                                }
-                                else {
-                                    ellipse.y = (dim.getHeight() - D) - counter * ellipse.height;
-                                }
-                                g2d.setColor(color);
-                                g2d.fill(ellipse);
-                                g2d.setColor(Color.BLACK);
-                                g2d.draw(ellipse);
-                            }
-                            counter+=1;
-                        }
+                    int counter = 0;
+                    if (location.isEmpty()){
 
                     }
-                    else {
-                        int counter = 0;
-                        while (!location.isEmpty()) {
-                            Piece temp = location.pop();
-                            Color color = temp.getColor();
-                            if (color != null) {
-                                ellipse.x = (r % 12) * W + OFFSET;
-                                if (counter >= 6) {
-                                    ellipse.y = counter%6 * ellipse.height + ellipse.height/2;
-                                }
+                    while (!location.isEmpty()) {
+                        Piece temp = location.pop();
+                        Color color = temp.getColor();
+                        if (color != null) {
+                            ellipse.x = (r % 12) * W + OFFSET;
+                            if (r >= 12){
+                                if (counter >= 6)
+                                    ellipse.y = (dim.getHeight() - D) - counter%6 * ellipse.height -ellipse.height/2;
+                                else
+                                    ellipse.y = (dim.getHeight() - D) - counter * ellipse.height;
+                            }
+                            else {
+                                if (counter >= 6)
+                                    ellipse.y = counter % 6 * ellipse.height + ellipse.height / 2;
                                 else
                                     ellipse.y = counter * ellipse.height;
-                                g2d.setColor(color);
-                                g2d.fill(ellipse);
-                                g2d.setColor(Color.BLACK);
-                                g2d.draw(ellipse);
                             }
-                            counter+=1;
+                            g2d.setColor(color);
+                            g2d.fill(ellipse);
+                            g2d.setColor(Color.BLACK);
+                            g2d.draw(ellipse);
                         }
+                        counter+=1;
                     }
+
                 }
             }
         }
