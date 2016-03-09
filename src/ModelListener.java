@@ -41,13 +41,21 @@ public interface ModelListener {
     public void reset() throws IOException;
 
     /**
+     * Sent to each client to report how many spaces they may move
+     * @param die1 value of the first die
+     * @param die2 value of the second die
+     * @param howFar
+     * @throws IOException
+     */
+    public void distance(int die1, int die2, int howFar) throws IOException;
+
+    /**
      * Sent to each client to report one of the player's move.
      * <id> is replaced with the ID of the player whose move is being reported.
      * <x> is replaced with that player's move in the x-axis.
      * <y> is replaced with that player's move in the x-axis.
      * @param id the players id
      * @param x that player's move in the x-axis.
-     * @param y that player's move in the y-axis.
      * @throws IOException
      */
     public void move(int id, int x) throws IOException;

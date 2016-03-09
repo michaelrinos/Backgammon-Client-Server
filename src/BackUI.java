@@ -22,8 +22,6 @@ public class BackUI implements ModelListener {
     private static final int COL = 10;
 
     private int id;
-    private int die1;
-    private int die2;
     private int MahWins;
     private JFrame frame;
     private int TheirWins;
@@ -47,10 +45,10 @@ public class BackUI implements ModelListener {
      */
     private BackUI(String name) {
         frame = new JFrame ("Backgammon -- " + name);
-
         this.board = new BackBoard();
 
         JPanel panel = new JPanel();
+        panel.setBackground(new Color(210, 180, 140));
         panel.setLayout (new BoxLayout (panel, BoxLayout.X_AXIS));
         frame.add (panel);
         panel.setBorder(BorderFactory.createEmptyBorder(GAP, GAP, GAP, GAP));
@@ -64,6 +62,7 @@ public class BackUI implements ModelListener {
 
 
         JPanel fieldPanel = new JPanel();
+        fieldPanel.setBackground(new Color(210, 180, 140));
         fieldPanel.setLayout (new BoxLayout (fieldPanel, BoxLayout.Y_AXIS));
         panel.add(fieldPanel);
 
@@ -150,13 +149,13 @@ public class BackUI implements ModelListener {
              */
             @Override
             public void windowClosing(WindowEvent e) {
-                /*try {
+                try {
                     viewListener.quit();
                     System.exit(0);
                 } catch (IOException e1) {
                     e1.printStackTrace();
-                }*/
-                System.exit(0);
+                }
+
             }
 
             @Override
@@ -216,13 +215,13 @@ public class BackUI implements ModelListener {
         this.viewListener = viewListener;
     }
 
-
+    //Temporary function used in the ui only
     public void roll(){
-
-        die1 = (int) (Math.random() * 6) + 1;
-        die2 = (int) (Math.random() * 6) + 1;
-        whoWonField.setText("( " + die1 + ", " + die2 + " )");
-        diceButton.setEnabled(false);
+        try {
+            this.viewListener.roll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void newGame(){
@@ -296,6 +295,12 @@ public class BackUI implements ModelListener {
                 }
             }
         });
+    }
+
+    @Override
+    public void distance(int die1, int die2, int howFar) throws IOException{
+        whoWonField.setText("( " + die1 + ", " + die2 + " )");
+        diceButton.setEnabled(false);
     }
 
     @Override

@@ -75,6 +75,14 @@ public class ViewProxy implements ModelListener {
     }
 
     @Override
+    public void distance(int die1, int die2, int howFar) throws IOException {
+        out.writeByte('D');
+        out.writeByte(die1);
+        out.writeByte(die2);
+        out.writeByte(howFar);
+    }
+
+    @Override
     public void move(int id, int x) throws IOException {
         out.writeByte('M');
         out.writeByte(id);
@@ -119,6 +127,8 @@ public class ViewProxy implements ModelListener {
                             r = in.readByte();
                             viewListener.placed(id,r);
                             break;
+                        case 'R':
+                            viewListener.roll();
                         case 'N':
                             viewListener.newgame();
                             break;

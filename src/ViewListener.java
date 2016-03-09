@@ -29,6 +29,13 @@ public interface ViewListener {
     public void placed(int id, int x) throws IOException;
 
     /**
+     * Sent to the server to tell it to roll the dice
+     * @throws IOException
+     */
+    public void roll() throws IOException;
+
+
+    /**
      * Sent to the server to report the start of a new game.
      * @throws IOException
      */

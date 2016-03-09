@@ -114,7 +114,7 @@ public class BackBoardPanel extends JPanel {
                     MyStack<Piece> location = board.getSpot(r);
                     int counter = 0;
                     if (location.isEmpty()){
-
+                        System.out.println(r);
                     }
                     while (!location.isEmpty()) {
                         Piece temp = location.pop();
@@ -147,19 +147,34 @@ public class BackBoardPanel extends JPanel {
         else {
             synchronized (board) {
                 for (int r = 0; r < BackBoard.BOARD_ROWS; ++r) {
-                    Color color = Color.BLACK;
-                    if (color != null) {
-                        ellipse.y = (6 - 1 - r) * D + 1;
-                        g2d.setColor(color);
-                        g2d.setColor(Color.BLACK);
-                        g2d.draw(ellipse);
-                    }else {
-                        ellipse.y = (6 - 1 - r) * D + 1;
-                        g2d.setColor(color);
-                        g2d.fill(ellipse);
-                        g2d.setColor(Color.BLACK);
-                        g2d.draw(ellipse);
-
+                    MyStack<Piece> location = board.getSpot(r);
+                    int counter = 0;
+                    if (location.isEmpty()){
+                        System.out.println(r);
+                    }
+                    while (!location.isEmpty()) {
+                        Piece temp = location.pop();
+                        Color color = temp.getColor();
+                        if (color != null) {
+                            ellipse.x = (r % 12) * W + OFFSET;
+                            if (r >= 12){
+                                if (counter >= 6)
+                                    ellipse.y = (dim.getHeight() - D) - counter%6 * ellipse.height -ellipse.height/2;
+                                else
+                                    ellipse.y = (dim.getHeight() - D) - counter * ellipse.height;
+                            }
+                            else {
+                                if (counter >= 6)
+                                    ellipse.y = counter % 6 * ellipse.height + ellipse.height / 2;
+                                else
+                                    ellipse.y = counter * ellipse.height;
+                            }
+                            g2d.setColor(color);
+                            g2d.fill(ellipse);
+                            g2d.setColor(Color.BLACK);
+                            g2d.draw(ellipse);
+                        }
+                        counter+=1;
                     }
 
                 }

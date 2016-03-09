@@ -5,9 +5,7 @@ import java.io.IOException;
  *
  * @author  Michael Rinos
  */
-public class SessionManager
-        implements ViewListener
-{
+public class SessionManager implements ViewListener {
 
     // Hidden data members.
     private boolean twoPlayers = false;
@@ -57,6 +55,11 @@ public class SessionManager
      */
     @Override
     public void placed(int id, int x) throws IOException {}
+
+    @Override
+    public void roll() throws IOException {
+
+    }
 
     /**
      * Starts a new game

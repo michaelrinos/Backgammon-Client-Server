@@ -67,6 +67,11 @@ public class ModelProxy implements ViewListener {
         out.writeByte(x);
     }
 
+    @Override
+    public void roll() throws IOException{
+        out.writeByte('R');
+    }
+
     /**
      * Tells server to start a new game
      *
