@@ -9,7 +9,7 @@ import javax.swing.*;
 
 public class BackBoardPanel extends JPanel {
 
-    private boolean isEnabled;
+    private boolean FlipBoard;
 
     private static final int W = 50;
     private static final int D = 30;
@@ -33,8 +33,6 @@ public class BackBoardPanel extends JPanel {
     public BackBoardPanel(BackBoard board) {
         super();
         this.board = board;
-        this.isEnabled = true;
-
         this.setBackground(new Color(210, 180, 140));
         dim = new Dimension(W * BackBoard.BOARD_ROWS/2, D * BackBoard.BOARD_ROWS/2);
         setMinimumSize(dim);
@@ -44,15 +42,14 @@ public class BackBoardPanel extends JPanel {
 
     // Exported operations.
     public boolean getEnabled(){
-        return this.isEnabled;
+        return this.FlipBoard;
     }
 
-    public void setEnabled
-            (boolean enabled) // True to enable, false to disable
+    public void setEnabled(boolean enabled) // True to enable, false to disable
     {
-        if (this.isEnabled != enabled)
+        if (this.FlipBoard != enabled)
         {
-            this.isEnabled = enabled;
+            this.FlipBoard = enabled;
             repaint();
         }
     }
@@ -108,76 +105,52 @@ public class BackBoardPanel extends JPanel {
         Ellipse2D.Double ellipse = new Ellipse2D.Double();
         ellipse.width = W-10;
         ellipse.height = D-5;
-        if (isEnabled) {
-            synchronized (board) {
-                for (int r = 0; r < BackBoard.BOARD_ROWS; ++r) {
-                    MyStack<Piece> location = board.getSpot(r);
-                    int counter = 0;
-                    if (location.isEmpty()){
-                        System.out.println(r);
-                    }
-                    while (!location.isEmpty()) {
-                        Piece temp = location.pop();
-                        Color color = temp.getColor();
-                        if (color != null) {
-                            ellipse.x = (r % 12) * W + OFFSET;
-                            if (r >= 12){
+
+        synchronized (board) {
+            for (int r = 0; r < BackBoard.BOARD_ROWS; ++r) {
+                MyStack<Piece> location = board.getSpot(r);
+                int counter = 0;
+                while (!location.isEmpty()) {
+                    Piece temp = location.pop();
+                    Color color = temp.getColor();
+                    if (color != null) {
+                        ellipse.x = (r % 12) * W + OFFSET;
+                        if (FlipBoard){
+                            if (r >= 12) {
                                 if (counter >= 6)
-                                    ellipse.y = (dim.getHeight() - D) - counter%6 * ellipse.height -ellipse.height/2;
+                                    ellipse.y = counter % 6 * ellipse.height + ellipse.height / 2;
+                                else
+                                    ellipse.y = counter * ellipse.height;
+
+                            } else {
+                                if (counter >= 6)
+                                    ellipse.y = (dim.getHeight() - D) - counter % 6 * ellipse.height - ellipse.height / 2;
                                 else
                                     ellipse.y = (dim.getHeight() - D) - counter * ellipse.height;
                             }
-                            else {
+
+                        }
+                        else {
+                            if (r >= 12) {
+                                if (counter >= 6)
+                                    ellipse.y = (dim.getHeight() - D) - counter % 6 * ellipse.height - ellipse.height / 2;
+                                else
+                                    ellipse.y = (dim.getHeight() - D) - counter * ellipse.height;
+                            } else {
                                 if (counter >= 6)
                                     ellipse.y = counter % 6 * ellipse.height + ellipse.height / 2;
                                 else
                                     ellipse.y = counter * ellipse.height;
                             }
-                            g2d.setColor(color);
-                            g2d.fill(ellipse);
-                            g2d.setColor(Color.BLACK);
-                            g2d.draw(ellipse);
                         }
-                        counter+=1;
+                        g2d.setColor(color);
+                        g2d.fill(ellipse);
+                        g2d.setColor(Color.BLACK);
+                        g2d.draw(ellipse);
                     }
-
+                    counter+=1;
                 }
-            }
-        }
-        else {
-            synchronized (board) {
-                for (int r = 0; r < BackBoard.BOARD_ROWS; ++r) {
-                    MyStack<Piece> location = board.getSpot(r);
-                    int counter = 0;
-                    if (location.isEmpty()){
-                        System.out.println(r);
-                    }
-                    while (!location.isEmpty()) {
-                        Piece temp = location.pop();
-                        Color color = temp.getColor();
-                        if (color != null) {
-                            ellipse.x = (r % 12) * W + OFFSET;
-                            if (r >= 12){
-                                if (counter >= 6)
-                                    ellipse.y = (dim.getHeight() - D) - counter%6 * ellipse.height -ellipse.height/2;
-                                else
-                                    ellipse.y = (dim.getHeight() - D) - counter * ellipse.height;
-                            }
-                            else {
-                                if (counter >= 6)
-                                    ellipse.y = counter % 6 * ellipse.height + ellipse.height / 2;
-                                else
-                                    ellipse.y = counter * ellipse.height;
-                            }
-                            g2d.setColor(color);
-                            g2d.fill(ellipse);
-                            g2d.setColor(Color.BLACK);
-                            g2d.draw(ellipse);
-                        }
-                        counter+=1;
-                    }
 
-                }
             }
         }
     }

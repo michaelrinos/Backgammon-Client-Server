@@ -74,7 +74,8 @@ public class BackBoard {
     public synchronized MyStack getSpot(int x) {
         if (x < 0 || x > BOARD_ROWS)
             return null;
-        return Board[x];
+
+        return new MyStack(Board[x]);
     }
 
     public synchronized MyStack[] getBoard() {

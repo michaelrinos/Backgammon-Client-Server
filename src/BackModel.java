@@ -15,7 +15,6 @@ public class BackModel implements ViewListener {
     private Player p2;
     private int pCount = 0;
     private int whosTurn = 0;
-    private int[][] Distances = new int[6][6];
     private static final int DRAW = 9;
     private static final int BOARD_ID = 5;
     private static final int NUMHEAPS = 7;
@@ -28,17 +27,7 @@ public class BackModel implements ViewListener {
     /**
      * Construct a new Go model.
      */
-    public BackModel() {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 6; j++) {
-                if (i == j)
-                    this.Distances[i][j] = 4*i;
-                else
-                    this.Distances[i][j] = i+j;
-            }
-        }
-    }
-
+    public BackModel() {}
 
 
     public synchronized int getCount(){
@@ -164,8 +153,11 @@ public class BackModel implements ViewListener {
     public synchronized void roll() throws IOException{
         die1 = (int) (Math.random() * 6) + 1;
         die2 = (int) (Math.random() * 6) + 1;
-        p1.getModelListener().distance(die1, die2, Distances[die1][die2]);
-        p2.getModelListener().distance(die1, die2, Distances[die1][die2]);
+        int distance;
+        if (die1 == die2) distance = die1+die2 * 2;
+        else distance = die1 + die2;
+        p1.getModelListener().distance(die1, die2, distance);
+        p2.getModelListener().distance(die1, die2, distance);
     }
 
     /**

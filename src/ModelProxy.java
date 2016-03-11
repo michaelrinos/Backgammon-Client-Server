@@ -123,10 +123,15 @@ public class ModelProxy implements ViewListener {
                         case 'H':
                             modelListener.reset();
                             break;
+                        case 'D':
+                            r = in.readByte();
+                            c = in.readByte();
+                            int temp = in.readByte();
+                            modelListener.distance(r, c, temp);
+                            break;
                         case 'M':
                             id = r = in.readByte();
                             r = in.readByte();
-                            c = in.readByte();
                             modelListener.move(id, r);
                             break;
                         case 'T':

@@ -97,7 +97,7 @@ public class BackUI implements ModelListener {
         diceButton.setAlignmentX (0.5f);
         diceButton.setFocusable(false);
         fieldPanel.add(diceButton);
-        diceButton.setEnabled(true);
+        diceButton.setEnabled(false);
 
         fieldPanel.add(Box.createRigidArea(new Dimension(0,5)));
 
@@ -256,6 +256,10 @@ public class BackUI implements ModelListener {
             @Override
             public void run() {
                 id = ids;
+                if (id == 0) {
+                    boardPanel.setEnabled(false);
+                }
+                else boardPanel.setEnabled(true);
                 boardPanel.setEnabled(false);
             }
         });
@@ -272,7 +276,6 @@ public class BackUI implements ModelListener {
                 }
                 else {
                     newGameButton.setEnabled(true);
-                    diceButton.setEnabled(true);
                     TheirName = name + "= ";
                     theirNameField.setText(name);
                 }
@@ -335,10 +338,12 @@ public class BackUI implements ModelListener {
                 whoWonField.setText("");
                 if (id == ids){
                     boardPanel.setEnabled(true);
+                    diceButton.setEnabled(true);
 
                 }
                 else{
                     boardPanel.setEnabled(false);
+                    diceButton.setEnabled(false);
                 }
             }
         });
