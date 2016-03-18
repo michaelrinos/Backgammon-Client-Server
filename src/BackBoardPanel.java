@@ -13,9 +13,12 @@ public class BackBoardPanel extends JPanel {
 
     private boolean FlipBoard;
     private BufferedImage image;
-    private static final int W = 50;
-    private static final int D = 30;
-    private static final int OFFSET = 5;
+    private static final int W = 35;
+    private static final int D = 25;
+
+    private static final int IMAGE_OFFSET = 57;
+    private static final int CENTER_OFFSET = 56;
+    private static final int BOTTOM_TOP_OFFSET = 33;
 
     private static final int X1 = W / 2;
     private static final int Y1 = W / 2;
@@ -35,8 +38,8 @@ public class BackBoardPanel extends JPanel {
     public BackBoardPanel(BackBoard board) {
         super();
         this.board = board;
-        System.out.println(W*BackBoard.BOARD_ROWS/2 +" " +(D*BackBoard.BOARD_ROWS/2));
-        dim = new Dimension((W * BackBoard.BOARD_ROWS/2)+100, (D * BackBoard.BOARD_ROWS/2) +60);
+        System.out.println((W+15)*BackBoard.BOARD_ROWS/2 +" " +((D+5)*BackBoard.BOARD_ROWS/2));
+        dim = new Dimension(((W+15) * BackBoard.BOARD_ROWS/2)+100, ((D+5) * BackBoard.BOARD_ROWS/2) +60);
         setMinimumSize(dim);
         setPreferredSize(dim);
         setMaximumSize(dim);
@@ -105,8 +108,8 @@ public class BackBoardPanel extends JPanel {
 
         // Draw spots.
         Ellipse2D.Double ellipse = new Ellipse2D.Double();
-        ellipse.width = W-10;
-        ellipse.height = D-5;
+        ellipse.width = W;
+        ellipse.height = D;
 
         URL resource = getClass().getResource("small.jpg");
         try {
@@ -114,7 +117,8 @@ public class BackBoardPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        g.drawImage(image, 3, 4, this);
+        g.drawImage(image, 0, 0, this);
+
 
         synchronized (board) {
             for (int r = 0; r < BackBoard.BOARD_ROWS; ++r) {
@@ -124,13 +128,16 @@ public class BackBoardPanel extends JPanel {
                     Piece temp = location.pop();
                     Color color = temp.getColor();
                     if (color != null) {
-                        ellipse.x = (r % 12) * W + OFFSET;
+                        if (r>=6 && r< 12 || r>= 18)
+                            ellipse.x = (r % 12) * (W+9) + IMAGE_OFFSET + CENTER_OFFSET;
+                        else
+                            ellipse.x = (r % 12) * (W+9) + IMAGE_OFFSET;
                         if (FlipBoard){
                             if (r >= 12) {
                                 if (counter >= 6)
                                     ellipse.y = counter % 6 * ellipse.height + ellipse.height / 2;
                                 else
-                                    ellipse.y = counter * ellipse.height;
+                                    ellipse.y = counter * ellipse.height + BOTTOM_TOP_OFFSET;
 
                             } else {
                                 if (counter >= 6)
@@ -145,12 +152,12 @@ public class BackBoardPanel extends JPanel {
                                 if (counter >= 6)
                                     ellipse.y = (dim.getHeight() - D) - counter % 6 * ellipse.height - ellipse.height / 2;
                                 else
-                                    ellipse.y = (dim.getHeight() - D) - counter * ellipse.height;
+                                    ellipse.y = ((dim.getHeight() - D) - counter * ellipse.height) - BOTTOM_TOP_OFFSET;
                             } else {
                                 if (counter >= 6)
                                     ellipse.y = counter % 6 * ellipse.height + ellipse.height / 2;
                                 else
-                                    ellipse.y = counter * ellipse.height;
+                                    ellipse.y = counter * ellipse.height + BOTTOM_TOP_OFFSET;
                             }
                         }
                         g2d.setColor(color);
