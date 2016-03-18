@@ -1,16 +1,18 @@
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class BackBoardPanel extends JPanel {
 
     private boolean FlipBoard;
-
+    private BufferedImage image;
     private static final int W = 50;
     private static final int D = 30;
     private static final int OFFSET = 5;
@@ -33,8 +35,8 @@ public class BackBoardPanel extends JPanel {
     public BackBoardPanel(BackBoard board) {
         super();
         this.board = board;
-        this.setBackground(new Color(210, 180, 140));
-        dim = new Dimension(W * BackBoard.BOARD_ROWS/2, D * BackBoard.BOARD_ROWS/2);
+        System.out.println(W*BackBoard.BOARD_ROWS/2 +" " +(D*BackBoard.BOARD_ROWS/2));
+        dim = new Dimension((W * BackBoard.BOARD_ROWS/2)+100, (D * BackBoard.BOARD_ROWS/2) +60);
         setMinimumSize(dim);
         setPreferredSize(dim);
         setMaximumSize(dim);
@@ -105,6 +107,14 @@ public class BackBoardPanel extends JPanel {
         Ellipse2D.Double ellipse = new Ellipse2D.Double();
         ellipse.width = W-10;
         ellipse.height = D-5;
+
+        URL resource = getClass().getResource("small.jpg");
+        try {
+            image = ImageIO.read(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        g.drawImage(image, 3, 4, this);
 
         synchronized (board) {
             for (int r = 0; r < BackBoard.BOARD_ROWS; ++r) {

@@ -129,6 +129,7 @@ public class ViewProxy implements ModelListener {
                             break;
                         case 'R':
                             viewListener.roll();
+                            break;
                         case 'N':
                             viewListener.newgame();
                             break;

@@ -1,14 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 /**
  * Class BackUI provides the user interface for the  network game.
@@ -35,6 +31,7 @@ public class BackUI implements ModelListener {
     private ViewListener viewListener;
     private JTextField theirNameField;
     private BackBoardPanel boardPanel;
+
 
 
 
@@ -302,8 +299,10 @@ public class BackUI implements ModelListener {
 
     @Override
     public void distance(int die1, int die2, int howFar) throws IOException{
-        whoWonField.setText("( " + die1 + ", " + die2 + " )");
+        this.whoWonField.setText("( " + die1 + ", " + die2 + " )");
         diceButton.setEnabled(false);
+
+        ;
     }
 
     @Override
@@ -335,7 +334,6 @@ public class BackUI implements ModelListener {
         onSwingThreadDo(new Runnable() {
             @Override
             public void run() {
-                whoWonField.setText("");
                 if (id == ids){
                     boardPanel.setEnabled(true);
                     diceButton.setEnabled(true);

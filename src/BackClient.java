@@ -30,7 +30,7 @@ public class BackClient {
             socket.connect(new InetSocketAddress(serverhost, serverport));      //Connect to server
             ModelProxy proxy = new ModelProxy(socket);
 
-            BackUI view = BackUI.create(session);                         //Create the view
+            BackUI view = BackUI.create(session);                               //Create the view
 
             proxy.setModelListener(view);                                       //Set the view for the proxy
             view.setViewListener(proxy);                                        //Set the proxy for the view
