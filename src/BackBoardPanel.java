@@ -31,14 +31,14 @@ public class BackBoardPanel extends JPanel {
 // Exported constructors.
 
     /**
-     * Construct a new bacd ck board panel.
+     * Construct a new back board panel.
      *
      * @param board BackBoard.
      */
     public BackBoardPanel(BackBoard board) {
-        super();
+        super();                            //Calls the constructor for the JPanel
         this.board = board;
-        System.out.println((W+15)*BackBoard.BOARD_ROWS/2 +" " +((D+5)*BackBoard.BOARD_ROWS/2));
+        //System.out.println((W+15)*BackBoard.BOARD_ROWS/2 +" " +((D+5)*BackBoard.BOARD_ROWS/2));
         dim = new Dimension(((W+15) * BackBoard.BOARD_ROWS/2)+100, ((D+5) * BackBoard.BOARD_ROWS/2) +60);
         setMinimumSize(dim);
         setPreferredSize(dim);
@@ -46,14 +46,24 @@ public class BackBoardPanel extends JPanel {
     }
 
     // Exported operations.
+
+    public boolean getFlipBoard() { return this.FlipBoard; }
+
+    public void setFlipBoard(boolean enabled){
+        if (this.FlipBoard != enabled){
+            FlipBoard = enabled;
+            repaint();
+        }
+    }
+
+
     public boolean getEnabled(){
         return this.FlipBoard;
     }
 
     public void setEnabled(boolean enabled) // True to enable, false to disable
     {
-        if (this.FlipBoard != enabled)
-        {
+        if (this.FlipBoard != enabled) {
             this.FlipBoard = enabled;
             repaint();
         }
@@ -65,9 +75,8 @@ public class BackBoardPanel extends JPanel {
      * @param e Mouse event.
      * @return Row index.
      */
-    public int clickToRow
-    (MouseEvent e) {
-        return e.getY() / D;
+    public int clickToRow(MouseEvent e) {
+        return (e.getY() - BOTTOM_TOP_OFFSET) / D;
     }
 
     /**
@@ -76,9 +85,8 @@ public class BackBoardPanel extends JPanel {
      * @param e Mouse event.
      * @return Column index.
      */
-    public int clickToColumn
-    (MouseEvent e) {
-        return e.getX() / W;
+    public int clickToColumn(MouseEvent e) {
+        return (e.getX() - BOTTOM_TOP_OFFSET) / W;
     }
 
 

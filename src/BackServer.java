@@ -18,7 +18,6 @@ public class BackServer
 
     /**
      * Main program.
-     *@exception `1 Exception thrown
      */
     public static void main(String[] args) throws Exception {
         if (args.length != 2) usage();

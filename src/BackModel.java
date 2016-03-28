@@ -166,7 +166,6 @@ public class BackModel implements ViewListener {
      */
     @Override
     public synchronized void newgame() throws IOException {
-        System.out.println("What the fuck");
         whosTurn = 0;
         p1.clearBoard();
         p2.clearBoard();

@@ -174,6 +174,8 @@ public class BackUI implements ModelListener {
                 case MouseEvent.BUTTON1:
                     int y = boardPanel.clickToColumn(e);
                     int x = boardPanel.clickToRow(e);
+                    System.out.println("X: "+x);
+                    System.out.println("Y: "+y);
                     int location = x * 12 + y;
                     viewListener.placed(this.id, location);
                     break;
@@ -251,9 +253,9 @@ public class BackUI implements ModelListener {
             public void run() {
                 id = ids;
                 if (id == 0) {
-                    boardPanel.setEnabled(false);
+                    boardPanel.setFlipBoard(false);
                 }
-                else boardPanel.setEnabled(true);
+                else boardPanel.setFlipBoard(true);
                 boardPanel.setEnabled(false);
             }
         });
@@ -334,7 +336,6 @@ public class BackUI implements ModelListener {
                 if (id == ids){
                     boardPanel.setEnabled(true);
                     diceButton.setEnabled(true);
-
                 }
                 else{
                     boardPanel.setEnabled(false);
